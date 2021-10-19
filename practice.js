@@ -43,7 +43,7 @@ var onlyOneFruit = function (fruits, targetFruit) {
   var results = _.filter(fruits, function (fruit, index, collection) {
     // IF element is targetFruit
     if (fruit === targetFruit) {
-      // push target fruit into results
+      // return the found friut
       return fruit;
     }
   });
@@ -53,12 +53,24 @@ var onlyOneFruit = function (fruits, targetFruit) {
 // use _.filter to return the fruits array with only fruits
 // starting with the letter 'P'.
 var startsWith = function (fruits, letter) {
-
+  var results = _.filter(fruits, function (fruit, index, collection) {
+    // IF the first letter of the element is 'P"
+    if (fruit.substr(0, 1) === letter) {
+      // return that element
+      return fruit;
+    }
+  });
+  return results;
 };
 
 // return a filtered array containing only cookie-type desserts.
 var cookiesOnly = function (desserts) {
-
+  var results = _.filter(desserts, function(dessert, index, collection) {
+    if (dessert[index] === 'cookie') {
+      return dessert;
+    }
+  });
+  return results;
 };
 
 /*
