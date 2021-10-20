@@ -65,7 +65,7 @@ var startsWith = function (fruits, letter) {
 
 // return a filtered array containing only cookie-type desserts.
 var cookiesOnly = function (desserts) {
-  var results = _.filter(desserts, function(dessert, index, collection) {
+  var results = _.filter(desserts, function (dessert, index, collection) {
     if (dessert[index] === 'cookie') {
       return dessert;
     }
@@ -81,27 +81,89 @@ var cookiesOnly = function (desserts) {
 
 // return the total price of all products.
 var sumTotal = function (products) {
+  // IP: an Array of objs, each obj is a single product
+  // ip: the price is located in the key = price
+  // OP: a #, the sum of the price of all the products
+  // .reduce(list, iteratee, memo)
+  // iteratee => func(memo, the value, index/key) -> accumulator & memo are the same thing
+  var priceTotal = _.reduce(products, function (memo, value, key) {
+    // access the string price number
+    var strPrice = value.price;
+    // remove $ sign from each price-value
+    var strNumPrice = strPrice.substr(1);
+    // change the new price-value (no $ sign) to a number
+    var numPrice = Number(strNumPrice);
+    // return price number + memo
+    return numPrice + memo;
+  }, 0);
+  return priceTotal;
 
 };
 
 // return an object consisting of dessert types and how many of each.
 // exampleOutput: { dessertType: 3, dessertType2: 1 }
 var dessertCategories = function (desserts) {
+  // IP: an array of objs - desserts
+  // OP: an obj, with all the dessert types and their count
+  // op: ANS {pie: 3, cake: 2, cookie: 2, drink: 1}
+  // ! return _.reduce(dessert, func.(acc....)...) would work too. 
+  var resultObj = _.reduce(desserts, function (accum, current) {
+    // set var type to the current elements value, i.e. 'cookie', or 'pie'
+    var type = current.type;
 
+    // IF the dessert type does NOT exist in accum
+    if (!accum[type]) {
+      // add the type-of-dessert and 1 as its value
+      accum[type] = 1;
+    } else {
+      // OTHERWISE, add 1 to the type-of-dessert
+      accum[type] = accum[type] + 1;
+    }
+    // update the accum, so on the next iteration it will have types and their count stored
+    return accum;
+  }, {});
+  return resultObj;
 };
 
 // given an array of movie data objects,return an array containing
 // movies that came out between 1990 and 2000.
 // TIP: use an array as your accumulator - don't push to an external array!
 var ninetiesKid = function (movies) {
-
+  // IP: an Array of Obj
+  // OP: an Array of movie titles
+  var results = _.reduce(movies, function (memo, current) {
+    // set var year to the release year
+    var year = current.releaseYear;
+    var title = current.title;
+    // IF the year falls in between 1990 & 2000
+    if (year >= 1990 && year <= 2000) {
+      // add the title of the current element to memo
+      memo.push(title);
+    }
+    return memo;
+  }, []);
+  return results;
 };
 
 // return an boolean stating if there exists a movie with a shorter
 // runtime than your time limit.
 // timeLimit is an integer representing a number of minutes.
 var movieNight = function (movies, timeLimit) {
-
+  // IP: an Array of Obj - movies, a # - that a movie must be shorter than
+  // OP: Boolean - if a movie is shorter than timeLimit
+  var result = _.reduce(movies, function (accum, current) {
+    var length = current.runtime;
+    // If the length of the current element is < timeLimit
+    if (length < timeLimit) {
+      // accum is true
+      accum = true;
+    } // else {
+    //   // Otherwise, accum is false
+    //   accum = false;
+    // }
+    return accum;
+  }, false);
+  return result;
 };
 
 /*
