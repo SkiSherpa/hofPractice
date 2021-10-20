@@ -175,16 +175,63 @@ var movieNight = function (movies, timeLimit) {
 // given an array of strings, use _.map to return a new array containing all
 // strings converted to uppercase letters.
 var upperCaseFruits = function (fruits) {
-
+  // .map will return an array if the IP is an Array
+  // IP: an Array - each element is a string
+  // OP: an Array - all strings uppercase
+  return _.map(fruits, function (value, index) {
+    // change each value to uppercase
+    return value.toUpperCase();
+  });
 };
 
 // given an array of dessert objects, return a new array of objects
 // that have a new "glutenFree" property, with a boolean value.
 // TIP: Items that contain flour are not gluten-free.
 var glutenFree = function (desserts) {
-
+  // flour is in an array in the ingredients
+  // ex: {..., ingredients: ['cocoa', 'flour', 'sugar', 'eggs', 'milk', 'butter' ],}
+  // IP: an array of objs
+  // OP: A new array with the key-value "glutenFree: true or false" added
+  
+  // what map will do
+  return _.map(desserts, function (value, index) {
+    // look at the value array of ingredients
+    var ingredients = value.ingredients;
+    var isGlutenFree = true;
+    // IF "flour" exists
+    ingredients.forEach(function(ingredient) {
+      console.log(ingredient);
+      if (ingredient === 'flour') {
+        isGlutenFree = false;
+        debugger;
+      } 
+      return isGlutenFree;
+    });
+    // IF isGlutenFree true
+    if (isGlutenFree === true) {
+      // add glutenFree = true, to the value (the obj for the dessert)
+      value.glutenFree = true;
+    } else {
+      // Otherwise add, glutenFree = false, to the value
+      value.glutenFree = false;
+    }
+    // newArray.push(value);
+    return value;
+  });
+  
 };
 
+// desserts.forEach(function(dessert) {
+//   var type = dessert.type;
+
+//   if (!data[type]) {
+//     data[type] = 1;
+//   } else {
+//     data[type] = data[type] + 1;
+//   }
+// });
+
+// return data;
 // use _.map to return an array of items with their sale prices, with a new property
 // containing the sale price. round any decimals to 2 places.
 //
